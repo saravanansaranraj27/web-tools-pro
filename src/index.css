@@ -5,10 +5,12 @@
   --font-display: "Sora", "Inter", sans-serif;
   --font-body:
     "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --nav-height: 70px;
 }
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-height);
 }
 
 html[data-theme="dark"],
@@ -107,6 +109,28 @@ body {
   }
 }
 
+.loader-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.loader-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--bg-subtle);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 nav {
   position: sticky;
   top: 0;
@@ -115,12 +139,18 @@ nav {
   background: var(--bg-elevated);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 5%;
   transition: all 0.3s ease;
   box-shadow: 0 2px 16px -4px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .logo {
@@ -152,13 +182,19 @@ nav {
   color: var(--primary);
 }
 
-.nav-links {
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.desktop-nav {
   display: flex;
   align-items: center;
   gap: 4px;
 }
 
-.nav-links button {
+.desktop-nav button {
   font-family: var(--font-body);
   font-size: 0.9rem;
   font-weight: 600;
@@ -174,51 +210,125 @@ nav {
   gap: 6px;
 }
 
-.nav-links button svg {
+.desktop-nav button svg {
   width: 18px;
   height: 18px;
   flex-shrink: 0;
 }
 
-.nav-links button:hover {
+.desktop-nav button:hover {
   color: var(--primary);
   background: var(--primary-soft);
   transform: translateY(-1px);
 }
 
-.nav-links .active {
+.desktop-nav .active {
   color: var(--primary);
   background: var(--primary-soft);
   font-weight: 700;
 }
 
-.theme-btn {
-  display: inline-flex !important;
+.theme-btn,
+.mobile-menu-toggle {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px !important;
-  height: 40px !important;
-  border-radius: 10px !important;
-  border: 1px solid var(--border) !important;
-  background: var(--bg-elevated) !important;
-  color: var(--text-muted) !important;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text-muted);
   cursor: pointer;
-  padding: 0 !important;
-  margin-left: 8px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.theme-btn:hover {
-  color: var(--primary) !important;
-  border-color: var(--primary) !important;
-  background: var(--primary-soft) !important;
-  transform: translateY(-2px) !important;
+.theme-btn:hover,
+.mobile-menu-toggle:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+  background: var(--primary-soft);
+  transform: translateY(-2px);
+}
+
+.theme-btn svg,
+.mobile-menu-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.mobile-menu-toggle {
+  display: none;
+}
+
+.mobile-drawer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border-soft);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 99;
+}
+
+.mobile-drawer.open {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-drawer button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 16px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mobile-drawer button:hover,
+.mobile-drawer button.active {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+.main-content {
+  flex: 1;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .hero-section {
   text-align: center;
   padding: 80px 24px 48px;
-  animation: fadeIn 0.8s ease-out;
 }
 
 .hero-content h1 {
@@ -253,8 +363,7 @@ nav {
   flex-wrap: wrap;
 }
 
-.btn-primary,
-.btn-secondary {
+.btn-primary {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -267,9 +376,6 @@ nav {
   cursor: pointer;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   letter-spacing: 0.01em;
-}
-
-.btn-primary {
   background: transparent;
   border-color: var(--primary);
   color: var(--primary);
@@ -282,30 +388,6 @@ nav {
   box-shadow: 0 12px 28px -8px var(--primary-soft);
 }
 
-.btn-secondary {
-  background: transparent;
-  border-color: var(--border);
-  color: var(--text);
-}
-
-.btn-secondary:hover {
-  transform: translateY(-3px);
-  background: var(--text);
-  border-color: var(--text);
-  color: var(--bg);
-}
-
-/*
-  FIX: .tool-container and .page-note are flex items inside .app
-  (display:flex; flex-direction:column). With `margin: ... auto`
-  for centering, flexbox disables cross-axis "stretch" sizing and
-  instead shrink-wraps each item to its own content width (only
-  capped by max-width). Because .tool-container's widest content
-  (an input+button row) is much narrower than .page-note's single
-  line of text, they ended up two different widths even though both
-  had the same max-width. Adding explicit `width: 100%` forces both
-  to fill available width first, then max-width caps them identically.
-*/
 .tool-container {
   width: 100%;
   max-width: 1100px;
@@ -570,16 +652,6 @@ ul {
   margin-top: 2px;
 }
 
-.dark .page-note {
-  background: rgba(30, 22, 56, 0.8);
-  color: #6d5aad;
-  border-color: #2e2252;
-}
-
-.dark .page-note svg {
-  color: #6d5aad;
-}
-
 .md-output {
   margin-top: 20px;
   padding: 28px;
@@ -733,16 +805,37 @@ footer {
   letter-spacing: 0.01em;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
+.back-to-top {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+  z-index: 50;
+  animation: fadeIn 0.4s ease;
+}
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.back-to-top:hover {
+  background: var(--primary);
+  color: var(--primary-contrast);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -8px var(--primary-soft);
+}
+
+.back-to-top svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2.5;
 }
 
 @keyframes slideUp {
@@ -769,54 +862,84 @@ footer {
   }
 }
 
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-15px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.features-section {
+  padding: 48px 24px;
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--border-soft);
 }
 
-:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 3px;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 32px;
+  color: var(--text);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.feature-card {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary);
+  box-shadow: 0 8px 24px -8px var(--primary-soft);
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.feature-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.feature-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.feature-card p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
 }
 
 @media (max-width: 768px) {
-  nav {
-    padding: 12px 20px;
-  }
-
-  .logo-text {
-    font-size: 1.15rem;
-  }
-
-  .nav-links {
+  .desktop-nav {
     display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: var(--bg-elevated);
-    border-bottom: 1px solid var(--border-soft);
-    flex-direction: column;
-    padding: 16px;
-    gap: 4px;
-    box-shadow: var(--shadow);
   }
 
-  .nav-links.open {
+  .mobile-menu-toggle {
     display: flex;
-    animation: slideDown 0.3s ease;
-  }
-
-  .nav-links button {
-    width: 100%;
-    justify-content: flex-start;
   }
 
   .hero-section {
@@ -832,8 +955,7 @@ footer {
     align-items: center;
   }
 
-  .btn-primary,
-  .btn-secondary {
+  .btn-primary {
     width: 100%;
     max-width: 300px;
     justify-content: center;
@@ -855,35 +977,12 @@ footer {
     font-size: 0.82rem;
     width: auto;
   }
-}
 
-.md-output ul,
-.md-output ol {
-  padding-left: 24px;
-  margin-bottom: 12px;
-  color: var(--text-muted);
-}
+  .features-section {
+    padding: 32px 16px;
+  }
 
-.md-output ul {
-  list-style-type: disc;
-}
-
-.md-output ol {
-  list-style-type: decimal;
-}
-
-.md-output li {
-  margin-bottom: 6px;
-  padding-left: 4px;
-  line-height: 1.7;
-}
-
-.md-output li::marker {
-  color: var(--primary);
-}
-
-.md-output p img.md-img {
-  display: inline-block;
-  margin-right: 6px;
-  margin-bottom: 6px;
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
 }
