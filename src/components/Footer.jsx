@@ -1,7 +1,7 @@
 const Footer = () => (
   <footer>
     <p className="footer-line">
-      &copy; 2026 WebTools Pro. Built with React & Pure CSS.
+      Built with React & Vite © 2026 Saran Raj Saravanan
     </p>
   </footer>
 );

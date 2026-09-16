@@ -34,6 +34,14 @@ html[data-theme="dark"],
   --shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.6);
   --glow-1: rgba(139, 92, 246, 0.07);
   --glow-2: rgba(167, 139, 250, 0.08);
+  --theme-icon-color: #000000;
+
+  --primary-gradient: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--primary) 85%, white) 0%,
+    var(--primary) 55%,
+    color-mix(in srgb, var(--primary) 78%, black) 100%
+  );
 }
 
 html[data-theme="light"],
@@ -57,6 +65,14 @@ html[data-theme="light"],
   --shadow: 0 8px 32px -10px rgba(100, 60, 180, 0.1);
   --glow-1: rgba(124, 58, 237, 0.05);
   --glow-2: rgba(139, 92, 246, 0.05);
+  --theme-icon-color: #ffffff;
+
+  --primary-gradient: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--primary) 85%, white) 0%,
+    var(--primary) 55%,
+    color-mix(in srgb, var(--primary) 78%, black) 100%
+  );
 }
 
 * {
@@ -233,22 +249,24 @@ nav {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: var(--bg-elevated);
-  color: var(--text-muted);
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border-radius: 8px;
+  border: 1px solid var(--primary);
+  background: var(--primary-gradient);
+  color: var(--theme-icon-color);
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: none;
 }
 
 .theme-btn:hover,
 .mobile-menu-toggle:hover {
-  color: var(--primary);
+  transform: none;
   border-color: var(--primary);
-  background: var(--primary-soft);
-  transform: translateY(-2px);
+  background: var(--primary-gradient);
+  color: var(--theme-icon-color);
+  box-shadow: none;
 }
 
 .theme-btn svg,
