@@ -1,47 +1,45 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { GlobeIcon, InfoIcon } from "../assets/Icons";
 
 const StatusTool = () => {
-  const [isLoading, setIsLoading] = useState(true);
   const [urlInput, setUrlInput] = useState("");
   const [statusResult, setStatusResult] = useState(null);
   const [isPinging, setIsPinging] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, []);
-
   const checkStatus = async () => {
     setIsPinging(true);
     setStatusResult(null);
+
     let url = urlInput;
-    if (!url.startsWith("http")) url = "https://" + url;
+
+    if (!url.startsWith("http")) {
+      url = "https://" + url;
+    }
+
     try {
       const start = Date.now();
-      await fetch(url, { mode: "no-cors" });
+
+      await fetch(url, {
+        mode: "no-cors",
+      });
+
       const duration = Date.now() - start;
-      setStatusResult({ status: "Reachable", time: duration, url });
+
+      setStatusResult({
+        status: "Reachable",
+        time: duration,
+        url,
+      });
     } catch {
-      setStatusResult({ status: "Unreachable", time: 0, url });
+      setStatusResult({
+        status: "Unreachable",
+        time: 0,
+        url,
+      });
     } finally {
       setIsPinging(false);
     }
   };
-
-  if (isLoading) {
-    return (
-      <div className="skeleton-container">
-        <div className="skeleton-header">
-          <div className="skeleton-icon"></div>
-          <div className="skeleton-title"></div>
-        </div>
-        <div className="skeleton-desc"></div>
-        <div className="skeleton-input"></div>
-        <div className="skeleton-button"></div>
-      </div>
-    );
-  }
 
   return (
     <>
@@ -49,6 +47,7 @@ const StatusTool = () => {
         <h2>
           <GlobeIcon /> Website Status Checker
         </h2>
+
         <p className="tool-desc">
           Ping any website and measure real-time response time from your
           browser.
@@ -61,6 +60,7 @@ const StatusTool = () => {
             value={urlInput}
             onChange={(e) => setUrlInput(e.target.value)}
           />
+
           <button onClick={checkStatus} disabled={isPinging}>
             {isPinging ? "Pinging..." : "Check Status"}
           </button>
@@ -78,6 +78,7 @@ const StatusTool = () => {
             >
               {statusResult.status}
             </h3>
+
             <p>Target: {statusResult.url}</p>
             <p>Response Time: {statusResult.time}ms</p>
           </div>

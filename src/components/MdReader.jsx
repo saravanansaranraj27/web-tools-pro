@@ -1,25 +1,34 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { FileTextIcon, InfoIcon } from "../assets/Icons";
 
 const parseMd = (md) => {
   if (!md || !md.trim()) return "";
+
   let html = md;
 
   const codeBlocks = [];
+
   html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
     const idx = codeBlocks.length;
+
     codeBlocks.push(
-      `<pre><code class="lang-${lang}">${code.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code></pre>`,
+      `<pre><code class="lang-${lang}">${code
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")}</code></pre>`,
     );
+
     return `%%CODEBLOCK_${idx}%%`;
   });
 
   const inlineCodes = [];
+
   html = html.replace(/`([^`\n]+)`/g, (_, code) => {
     const idx = inlineCodes.length;
+
     inlineCodes.push(
       `<code>${code.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code>`,
     );
+
     return `%%INLINE_${idx}%%`;
   });
 
@@ -33,6 +42,7 @@ const parseMd = (md) => {
         .filter((c) => c.trim())
         .map((c) => `<th>${c.trim()}</th>`)
         .join("");
+
       const rows = bodyRows
         .trim()
         .split("\n")
@@ -42,9 +52,11 @@ const parseMd = (md) => {
             .filter((c) => c.trim())
             .map((c) => `<td>${c.trim()}</td>`)
             .join("");
+
           return `<tr>${cells}</tr>`;
         })
         .join("");
+
       return `<div class="md-table-wrap"><table><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table></div>`;
     },
   );
@@ -78,6 +90,7 @@ const parseMd = (md) => {
         return `<li>${content}</li>`;
       })
       .join("");
+
     return `<ul>${items}</ul>`;
   });
 
@@ -90,6 +103,7 @@ const parseMd = (md) => {
         return `<li>${content}</li>`;
       })
       .join("");
+
     return `<ol>${items}</ol>`;
   });
 
@@ -100,26 +114,33 @@ const parseMd = (md) => {
   const lines = html.split("\n");
   const outLines = [];
   let paraBuffer = [];
+
   const flushPara = () => {
     if (paraBuffer.length) {
       outLines.push(`<p>${paraBuffer.join(" ")}</p>`);
       paraBuffer = [];
     }
   };
+
   for (const rawLine of lines) {
     const t = rawLine.trim();
+
     if (!t) {
       flushPara();
       continue;
     }
+
     if (isBlockLine(t)) {
       flushPara();
       outLines.push(t);
       continue;
     }
+
     paraBuffer.push(t);
   }
+
   flushPara();
+
   html = outLines.join("\n");
 
   html = html.replace(/<\/blockquote>\n<blockquote>/g, "<br/>");
@@ -128,33 +149,16 @@ const parseMd = (md) => {
     /%%CODEBLOCK_(\d+)%%/g,
     (_, i) => codeBlocks[parseInt(i)],
   );
+
   html = html.replace(/%%INLINE_(\d+)%%/g, (_, i) => inlineCodes[parseInt(i)]);
 
   return html;
 };
 
 const MdReader = () => {
-  const [isLoading, setIsLoading] = useState(true);
   const [input, setInput] = useState("");
+
   const output = useMemo(() => parseMd(input), [input]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (isLoading) {
-    return (
-      <div className="skeleton-container">
-        <div className="skeleton-header">
-          <div className="skeleton-icon"></div>
-          <div className="skeleton-title"></div>
-        </div>
-        <div className="skeleton-desc"></div>
-        <div className="skeleton-textarea"></div>
-      </div>
-    );
-  }
 
   return (
     <>
@@ -162,6 +166,7 @@ const MdReader = () => {
         <h2>
           <FileTextIcon /> Markdown Reader
         </h2>
+
         <p className="tool-desc">
           Write markdown and instantly preview rendered HTML with styled output.
           Supports tables, images, badges, code blocks, and more.
