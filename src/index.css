@@ -6,6 +6,33 @@
   --font-body:
     "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --nav-height: 70px;
+  --bg: #faf8ff;
+  --bg-elevated: #ffffff;
+  --bg-subtle: #f0ebff;
+  --border: #ddd6f3;
+  --border-soft: #ede9fe;
+  --text: #1a0e3a;
+  --text-muted: #4a3878;
+  --text-dim: #7c6aaa;
+  --primary: #7c3aed;
+  --primary-hover: #6d28d9;
+  --primary-soft: rgba(124, 58, 237, 0.08);
+  --primary-contrast: #ffffff;
+  --accent: #8b5cf6;
+  --amber: #b45309;
+  --amber-soft: rgba(180, 83, 9, 0.08);
+  --red: #c23f33;
+  --shadow: 0 8px 32px -10px rgba(100, 60, 180, 0.1);
+  --glow-1: rgba(124, 58, 237, 0.05);
+  --glow-2: rgba(139, 92, 246, 0.05);
+  --theme-icon-color: #ffffff;
+
+  --primary-gradient: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--primary) 85%, white) 0%,
+    var(--primary) 55%,
+    color-mix(in srgb, var(--primary) 78%, black) 100%
+  );
 }
 
 html {
@@ -79,6 +106,11 @@ html[data-theme="light"],
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+html,
+body {
+  background-color: var(--bg);
 }
 
 body {
@@ -818,8 +850,8 @@ footer {
 }
 
 .footer-line {
-  font-size: 0.82rem !important;
-  color: var(--text-dim) !important;
+  font-size: 0.82rem;
+  color: var(--text-dim);
   letter-spacing: 0.01em;
 }
 
@@ -1176,6 +1208,52 @@ footer {
   );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
+}
+
+.skeleton-nav-logo,
+.skeleton-nav-title,
+.skeleton-nav-item,
+.skeleton-nav-theme,
+.skeleton-footer {
+  background: linear-gradient(
+    90deg,
+    var(--bg-subtle) 25%,
+    var(--border-soft) 50%,
+    var(--bg-subtle) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-nav-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+}
+
+.skeleton-nav-title {
+  width: 120px;
+  height: 24px;
+  border-radius: 6px;
+}
+
+.skeleton-nav-item {
+  width: 80px;
+  height: 36px;
+  border-radius: 8px;
+}
+
+.skeleton-nav-theme {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+}
+
+.skeleton-footer {
+  width: 280px;
+  height: 16px;
+  margin: 0 auto;
+  border-radius: 4px;
 }
 
 @keyframes shimmer {

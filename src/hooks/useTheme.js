@@ -1,30 +1,31 @@
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
+
+const getInitialTheme = () => {
+  const savedTheme = window.localStorage.getItem("web-tools-theme");
+
+  if (savedTheme === "dark" || savedTheme === "light") {
+    return savedTheme === "dark";
+  }
+
+  return (
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  );
+};
+
+const applyTheme = (darkMode) => {
+  const theme = darkMode ? "dark" : "light";
+
+  document.body.classList.toggle("dark-mode", darkMode);
+  document.body.classList.toggle("light-mode", !darkMode);
+  document.documentElement.setAttribute("data-theme", theme);
+};
 
 export const useTheme = () => {
-  const [darkMode, setDarkMode] = useState(() => {
-    const savedTheme = window.localStorage.getItem("web-tools-theme");
+  const [darkMode, setDarkMode] = useState(getInitialTheme);
 
-    if (savedTheme) {
-      return savedTheme === "dark";
-    }
-
-    const prefersDark =
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches;
-    return prefersDark;
-  });
-
-  useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add("dark-mode");
-      document.body.classList.remove("light-mode");
-      document.documentElement.setAttribute("data-theme", "dark");
-    } else {
-      document.body.classList.add("light-mode");
-      document.body.classList.remove("dark-mode");
-      document.documentElement.setAttribute("data-theme", "light");
-    }
-
+  useLayoutEffect(() => {
+    applyTheme(darkMode);
     window.localStorage.setItem("web-tools-theme", darkMode ? "dark" : "light");
   }, [darkMode]);
 
