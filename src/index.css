@@ -6,33 +6,6 @@
   --font-body:
     "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --nav-height: 70px;
-  --bg: #faf8ff;
-  --bg-elevated: #ffffff;
-  --bg-subtle: #f0ebff;
-  --border: #ddd6f3;
-  --border-soft: #ede9fe;
-  --text: #1a0e3a;
-  --text-muted: #4a3878;
-  --text-dim: #7c6aaa;
-  --primary: #7c3aed;
-  --primary-hover: #6d28d9;
-  --primary-soft: rgba(124, 58, 237, 0.08);
-  --primary-contrast: #ffffff;
-  --accent: #8b5cf6;
-  --amber: #b45309;
-  --amber-soft: rgba(180, 83, 9, 0.08);
-  --red: #c23f33;
-  --shadow: 0 8px 32px -10px rgba(100, 60, 180, 0.1);
-  --glow-1: rgba(124, 58, 237, 0.05);
-  --glow-2: rgba(139, 92, 246, 0.05);
-  --theme-icon-color: #ffffff;
-
-  --primary-gradient: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--primary) 85%, white) 0%,
-    var(--primary) 55%,
-    color-mix(in srgb, var(--primary) 78%, black) 100%
-  );
 }
 
 html {
@@ -106,11 +79,6 @@ html[data-theme="light"],
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
-
-html,
-body {
-  background-color: var(--bg);
 }
 
 body {
@@ -850,8 +818,8 @@ footer {
 }
 
 .footer-line {
-  font-size: 0.82rem;
-  color: var(--text-dim);
+  font-size: 0.82rem !important;
+  color: var(--text-dim) !important;
   letter-spacing: 0.01em;
 }
 
@@ -1037,6 +1005,124 @@ footer {
   }
 }
 
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-subtle) 25%,
+    var(--border-soft) 50%,
+    var(--bg-subtle) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.skeleton-nav-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+}
+
+.skeleton-logo-text {
+  width: 120px;
+  height: 24px;
+  border-radius: 6px;
+}
+
+.skeleton-nav-item {
+  width: 80px;
+  height: 36px;
+  border-radius: 8px;
+}
+
+.skeleton-theme-button {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+}
+
+.skeleton-hero-title {
+  width: 80%;
+  max-width: 600px;
+  height: 48px;
+  margin: 0 auto 20px;
+  border-radius: 8px;
+}
+
+.skeleton-hero-description {
+  width: 60%;
+  max-width: 500px;
+  height: 20px;
+  margin: 0 auto 36px;
+  border-radius: 6px;
+}
+
+.skeleton-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+
+.skeleton-hero-button {
+  width: 180px;
+  height: 48px;
+  border-radius: 10px;
+}
+
+.skeleton-section-title {
+  width: 200px;
+  height: 32px;
+  margin: 0 auto 32px;
+  border-radius: 6px;
+}
+
+.skeleton-feature-card {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.skeleton-feature-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+}
+
+.skeleton-feature-title {
+  width: 70%;
+  height: 22px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+}
+
+.skeleton-feature-text {
+  width: 90%;
+  height: 16px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+}
+
+.skeleton-feature-text-short {
+  width: 65%;
+}
+
+.skeleton-footer {
+  width: 280px;
+  height: 16px;
+  margin: 0 auto;
+  border-radius: 4px;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  background: var(--bg);
+}
+
 .skeleton-container {
   width: 100%;
   max-width: 1100px;
@@ -1210,52 +1296,6 @@ footer {
   animation: shimmer 1.5s infinite;
 }
 
-.skeleton-nav-logo,
-.skeleton-nav-title,
-.skeleton-nav-item,
-.skeleton-nav-theme,
-.skeleton-footer {
-  background: linear-gradient(
-    90deg,
-    var(--bg-subtle) 25%,
-    var(--border-soft) 50%,
-    var(--bg-subtle) 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-}
-
-.skeleton-nav-logo {
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-}
-
-.skeleton-nav-title {
-  width: 120px;
-  height: 24px;
-  border-radius: 6px;
-}
-
-.skeleton-nav-item {
-  width: 80px;
-  height: 36px;
-  border-radius: 8px;
-}
-
-.skeleton-nav-theme {
-  width: 42px;
-  height: 42px;
-  border-radius: 8px;
-}
-
-.skeleton-footer {
-  width: 280px;
-  height: 16px;
-  margin: 0 auto;
-  border-radius: 4px;
-}
-
 @keyframes shimmer {
   0% {
     background-position: -200% 0;
@@ -1266,6 +1306,26 @@ footer {
 }
 
 @media (max-width: 768px) {
+  .skeleton-nav-item {
+    display: none;
+  }
+
+  .skeleton-logo-text {
+    width: 100px;
+  }
+
+  .skeleton-hero-title {
+    width: 90%;
+  }
+
+  .skeleton-hero-description {
+    width: 80%;
+  }
+
+  .skeleton-hero-button {
+    width: 160px;
+  }
+
   .skeleton-container {
     margin: 28px 16px;
     padding: 22px;

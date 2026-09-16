@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import {
   LockIcon,
   TypeIcon,
@@ -20,118 +19,25 @@ const IntroSkeleton = () => (
   <>
     <header className="hero-section">
       <div className="hero-content">
-        <div
-          style={{
-            height: "48px",
-            width: "80%",
-            maxWidth: "600px",
-            margin: "0 auto 20px",
-            borderRadius: "8px",
-            background:
-              "linear-gradient(90deg, var(--bg-subtle) 25%, var(--border-soft) 50%, var(--bg-subtle) 75%)",
-            backgroundSize: "200% 100%",
-            animation: "shimmer 1.5s infinite",
-          }}
-        ></div>
-        <div
-          style={{
-            height: "20px",
-            width: "60%",
-            maxWidth: "500px",
-            margin: "0 auto 36px",
-            borderRadius: "6px",
-            background:
-              "linear-gradient(90deg, var(--bg-subtle) 25%, var(--border-soft) 50%, var(--bg-subtle) 75%)",
-            backgroundSize: "200% 100%",
-            animation: "shimmer 1.5s infinite",
-          }}
-        ></div>
-        <div
-          style={{
-            display: "flex",
-            gap: "16px",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            marginTop: "32px",
-          }}
-        >
-          {[...Array(4)].map((_, i) => (
-            <div
-              key={i}
-              style={{
-                height: "48px",
-                width: "180px",
-                borderRadius: "10px",
-                background:
-                  "linear-gradient(90deg, var(--bg-subtle) 25%, var(--border-soft) 50%, var(--bg-subtle) 75%)",
-                backgroundSize: "200% 100%",
-                animation: "shimmer 1.5s infinite",
-              }}
-            ></div>
+        <div className="skeleton skeleton-hero-title"></div>
+        <div className="skeleton skeleton-hero-description"></div>
+        <div className="skeleton-actions">
+          {[1, 2, 3, 4].map((item) => (
+            <div key={item} className="skeleton skeleton-hero-button"></div>
           ))}
         </div>
       </div>
     </header>
     <section className="features-section">
       <div className="container">
-        <div
-          style={{
-            height: "32px",
-            width: "200px",
-            margin: "0 auto 32px",
-            borderRadius: "6px",
-            background:
-              "linear-gradient(90deg, var(--bg-subtle) 25%, var(--border-soft) 50%, var(--bg-subtle) 75%)",
-            backgroundSize: "200% 100%",
-            animation: "shimmer 1.5s infinite",
-          }}
-        ></div>
+        <div className="skeleton skeleton-section-title"></div>
         <div className="features-grid">
-          {[...Array(4)].map((_, i) => (
-            <div
-              key={i}
-              style={{
-                background: "var(--bg-subtle)",
-                border: "1px solid var(--border)",
-                borderRadius: "var(--radius)",
-                padding: "24px",
-              }}
-            >
-              <div
-                style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "12px",
-                  background:
-                    "linear-gradient(90deg, var(--bg-subtle) 25%, var(--border-soft) 50%, var(--bg-subtle) 75%)",
-                  backgroundSize: "200% 100%",
-                  animation: "shimmer 1.5s infinite",
-                  marginBottom: "16px",
-                }}
-              ></div>
-              <div
-                style={{
-                  height: "22px",
-                  width: "70%",
-                  borderRadius: "6px",
-                  background:
-                    "linear-gradient(90deg, var(--bg-subtle) 25%, var(--border-soft) 50%, var(--bg-subtle) 75%)",
-                  backgroundSize: "200% 100%",
-                  animation: "shimmer 1.5s infinite",
-                  marginBottom: "8px",
-                }}
-              ></div>
-              <div
-                style={{
-                  height: "16px",
-                  width: "90%",
-                  borderRadius: "4px",
-                  background:
-                    "linear-gradient(90deg, var(--bg-subtle) 25%, var(--border-soft) 50%, var(--bg-subtle) 75%)",
-                  backgroundSize: "200% 100%",
-                  animation: "shimmer 1.5s infinite",
-                }}
-              ></div>
+          {[1, 2, 3, 4].map((item) => (
+            <div key={item} className="skeleton-feature-card">
+              <div className="skeleton skeleton-feature-icon"></div>
+              <div className="skeleton skeleton-feature-title"></div>
+              <div className="skeleton skeleton-feature-text"></div>
+              <div className="skeleton skeleton-feature-text skeleton-feature-text-short"></div>
             </div>
           ))}
         </div>
@@ -140,14 +46,7 @@ const IntroSkeleton = () => (
   </>
 );
 
-const Intro = ({ setActivePage }) => {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, []);
-
+const Intro = ({ setActivePage, isLoading }) => {
   if (isLoading) {
     return <IntroSkeleton />;
   }

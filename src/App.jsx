@@ -9,6 +9,27 @@ import MdReader from "./components/MdReader";
 import Footer from "./components/Footer";
 import "./index.css";
 
+const NavbarSkeleton = () => (
+  <nav>
+    <div className="navbar-inner">
+      <div className="logo">
+        <div className="skeleton skeleton-nav-icon"></div>
+        <div className="skeleton skeleton-logo-text"></div>
+      </div>
+
+      <div className="nav-actions">
+        <div className="desktop-nav">
+          {[1, 2, 3, 4].map((item) => (
+            <div key={item} className="skeleton skeleton-nav-item"></div>
+          ))}
+        </div>
+
+        <div className="skeleton skeleton-theme-button"></div>
+      </div>
+    </div>
+  </nav>
+);
+
 function App() {
   const { darkMode, setDarkMode } = useTheme();
   const [activePage, setActivePage] = useState("intro");
@@ -41,61 +62,39 @@ function App() {
     scrollToTop();
   };
 
-  if (isLoading) {
-    return (
-      <div className={`app ${darkMode ? "dark" : "light"}`}>
-        <nav>
-          <div className="navbar-inner">
-            <div className="logo">
-              <div className="skeleton-nav-logo"></div>
-              <div className="skeleton-nav-title"></div>
-            </div>
-            <div className="nav-actions">
-              <div className="desktop-nav">
-                {[...Array(4)].map((_, i) => (
-                  <div key={i} className="skeleton-nav-item"></div>
-                ))}
-              </div>
-              <div className="skeleton-nav-theme"></div>
-            </div>
-          </div>
-        </nav>
-
-        <main className="main-content">
-          {activePage === "intro" && <Intro setActivePage={handleNavClick} />}
-          {activePage === "password" && <PasswordTool />}
-          {activePage === "status" && <StatusTool />}
-          {activePage === "wordcounter" && <WordCounter />}
-          {activePage === "mdreader" && <MdReader />}
-        </main>
-
-        <footer>
-          <div className="skeleton-footer"></div>
-        </footer>
-      </div>
-    );
-  }
-
   return (
     <div className={`app ${darkMode ? "dark" : "light"}`}>
-      <Navbar
-        activePage={activePage}
-        setActivePage={handleNavClick}
-        darkMode={darkMode}
-        setDarkMode={setDarkMode}
-        isMobileMenuOpen={isMobileMenuOpen}
-        setIsMobileMenuOpen={setIsMobileMenuOpen}
-      />
+      {isLoading ? (
+        <NavbarSkeleton />
+      ) : (
+        <Navbar
+          activePage={activePage}
+          setActivePage={handleNavClick}
+          darkMode={darkMode}
+          setDarkMode={setDarkMode}
+          isMobileMenuOpen={isMobileMenuOpen}
+          setIsMobileMenuOpen={setIsMobileMenuOpen}
+        />
+      )}
 
-      <main className="main-content fade-in">
-        {activePage === "intro" && <Intro setActivePage={handleNavClick} />}
+      <main className={`main-content ${isLoading ? "" : "fade-in"}`}>
+        {activePage === "intro" && (
+          <Intro isLoading={isLoading} setActivePage={handleNavClick} />
+        )}
+
         {activePage === "password" && <PasswordTool />}
         {activePage === "status" && <StatusTool />}
         {activePage === "wordcounter" && <WordCounter />}
         {activePage === "mdreader" && <MdReader />}
       </main>
 
-      <Footer />
+      {isLoading ? (
+        <footer>
+          <div className="skeleton skeleton-footer"></div>
+        </footer>
+      ) : (
+        <Footer />
+      )}
 
       {showBackToTop && (
         <button

@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from "react";
+import { useEffect, useState } from "react";
 
 const getInitialTheme = () => {
   const savedTheme = window.localStorage.getItem("web-tools-theme");
@@ -15,16 +15,18 @@ const getInitialTheme = () => {
 
 const applyTheme = (darkMode) => {
   const theme = darkMode ? "dark" : "light";
-
+  document.documentElement.setAttribute("data-theme", theme);
   document.body.classList.toggle("dark-mode", darkMode);
   document.body.classList.toggle("light-mode", !darkMode);
-  document.documentElement.setAttribute("data-theme", theme);
 };
 
-export const useTheme = () => {
-  const [darkMode, setDarkMode] = useState(getInitialTheme);
+const initialDarkMode = getInitialTheme();
+applyTheme(initialDarkMode);
 
-  useLayoutEffect(() => {
+export const useTheme = () => {
+  const [darkMode, setDarkMode] = useState(initialDarkMode);
+
+  useEffect(() => {
     applyTheme(darkMode);
     window.localStorage.setItem("web-tools-theme", darkMode ? "dark" : "light");
   }, [darkMode]);
