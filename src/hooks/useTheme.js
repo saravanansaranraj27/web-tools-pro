@@ -15,12 +15,14 @@ const getInitialTheme = () => {
 
 const applyTheme = (darkMode) => {
   const theme = darkMode ? "dark" : "light";
+
   document.documentElement.setAttribute("data-theme", theme);
   document.body.classList.toggle("dark-mode", darkMode);
   document.body.classList.toggle("light-mode", !darkMode);
 };
 
 const initialDarkMode = getInitialTheme();
+
 applyTheme(initialDarkMode);
 
 export const useTheme = () => {
