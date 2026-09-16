@@ -1,13 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GlobeIcon, InfoIcon } from "../assets/Icons";
 
 const StatusTool = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [urlInput, setUrlInput] = useState("");
   const [statusResult, setStatusResult] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPinging, setIsPinging] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   const checkStatus = async () => {
-    setIsLoading(true);
+    setIsPinging(true);
     setStatusResult(null);
     let url = urlInput;
     if (!url.startsWith("http")) url = "https://" + url;
@@ -19,9 +25,23 @@ const StatusTool = () => {
     } catch {
       setStatusResult({ status: "Unreachable", time: 0, url });
     } finally {
-      setIsLoading(false);
+      setIsPinging(false);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="skeleton-container">
+        <div className="skeleton-header">
+          <div className="skeleton-icon"></div>
+          <div className="skeleton-title"></div>
+        </div>
+        <div className="skeleton-desc"></div>
+        <div className="skeleton-input"></div>
+        <div className="skeleton-button"></div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -41,8 +61,8 @@ const StatusTool = () => {
             value={urlInput}
             onChange={(e) => setUrlInput(e.target.value)}
           />
-          <button onClick={checkStatus} disabled={isLoading}>
-            {isLoading ? "Pinging..." : "Check Status"}
+          <button onClick={checkStatus} disabled={isPinging}>
+            {isPinging ? "Pinging..." : "Check Status"}
           </button>
         </div>
 

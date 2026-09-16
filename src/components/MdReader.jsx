@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { FileTextIcon, InfoIcon } from "../assets/Icons";
 
 const parseMd = (md) => {
@@ -67,7 +67,7 @@ const parseMd = (md) => {
   html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
   html = html.replace(/\*(.+?)\*/g, "<em>$1</em>");
 
-  html = html.replace(/^\> (.+)$/gm, "<blockquote>$1</blockquote>");
+  html = html.replace(/^> (.+)$/gm, "<blockquote>$1</blockquote>");
 
   html = html.replace(/(^[-*] .+(\n|$))+/gm, (block) => {
     const items = block
@@ -93,9 +93,6 @@ const parseMd = (md) => {
     return `<ol>${items}</ol>`;
   });
 
-  // Group consecutive plain (non-block) lines into a single paragraph,
-  // matching standard Markdown behavior: lines with no blank line
-  // between them belong to the SAME paragraph, not separate ones.
   const isBlockLine = (t) =>
     /^<(h[1-4]|ul|ol|li|blockquote|pre|hr|div|table|img)/.test(t) ||
     /^%%/.test(t);
@@ -137,8 +134,27 @@ const parseMd = (md) => {
 };
 
 const MdReader = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [input, setInput] = useState("");
   const output = useMemo(() => parseMd(input), [input]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="skeleton-container">
+        <div className="skeleton-header">
+          <div className="skeleton-icon"></div>
+          <div className="skeleton-title"></div>
+        </div>
+        <div className="skeleton-desc"></div>
+        <div className="skeleton-textarea"></div>
+      </div>
+    );
+  }
 
   return (
     <>

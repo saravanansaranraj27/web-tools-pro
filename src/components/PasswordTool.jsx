@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CheckIcon, AlertIcon, LockIcon, ShieldIcon } from "../assets/Icons";
 
 const PasswordTool = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [passInput, setPassInput] = useState("");
   const [passResult, setPassResult] = useState(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   const analyzePassword = () => {
     let score = 0;
@@ -24,6 +30,20 @@ const PasswordTool = () => {
     if (score === 5) msg = "Excellent";
     setPassResult({ score, msg, feedback });
   };
+
+  if (isLoading) {
+    return (
+      <div className="skeleton-container">
+        <div className="skeleton-header">
+          <div className="skeleton-icon"></div>
+          <div className="skeleton-title"></div>
+        </div>
+        <div className="skeleton-desc"></div>
+        <div className="skeleton-input"></div>
+        <div className="skeleton-button"></div>
+      </div>
+    );
+  }
 
   return (
     <>

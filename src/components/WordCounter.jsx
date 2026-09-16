@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TypeIcon, InfoIcon } from "../assets/Icons";
 
 const WordCounter = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [text, setText] = useState("");
   const [stats, setStats] = useState(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   const analyze = () => {
     const trimmed = text.trim();
@@ -19,6 +25,30 @@ const WordCounter = () => {
     const readTime = Math.max(1, Math.ceil(words / 200));
     setStats({ words, chars, charsNoSpace, paragraphs, sentences, readTime });
   };
+
+  if (isLoading) {
+    return (
+      <div className="skeleton-container">
+        <div className="skeleton-header">
+          <div className="skeleton-icon"></div>
+          <div className="skeleton-title"></div>
+        </div>
+        <div className="skeleton-desc"></div>
+        <div className="skeleton-textarea"></div>
+        <div className="skeleton-button"></div>
+        <div className="skeleton-result">
+          <div className="skeleton-stats-grid">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="skeleton-stat-item">
+                <div className="skeleton-stat-value"></div>
+                <div className="skeleton-stat-label"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
