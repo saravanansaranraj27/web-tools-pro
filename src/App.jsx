@@ -22,14 +22,12 @@ const NavbarSkeleton = () => (
         <div className="skeleton skeleton-nav-icon"></div>
         <div className="skeleton skeleton-logo-text"></div>
       </div>
-
       <div className="nav-actions">
         <div className="desktop-nav">
           {[1, 2, 3, 4].map((item) => (
             <div key={item} className="skeleton skeleton-nav-item"></div>
           ))}
         </div>
-
         <div className="skeleton skeleton-theme-button"></div>
       </div>
     </div>
@@ -42,7 +40,6 @@ const IntroSkeleton = () => (
       <div className="hero-content">
         <div className="skeleton skeleton-hero-title"></div>
         <div className="skeleton skeleton-hero-description"></div>
-
         <div className="skeleton-actions">
           {[1, 2, 3, 4].map((item) => (
             <div key={item} className="skeleton skeleton-hero-button"></div>
@@ -50,11 +47,9 @@ const IntroSkeleton = () => (
         </div>
       </div>
     </header>
-
     <section className="features-section">
       <div className="container">
         <div className="skeleton skeleton-section-title"></div>
-
         <div className="features-grid">
           {[1, 2, 3, 4].map((item) => (
             <div key={item} className="skeleton-feature-card">
@@ -75,19 +70,16 @@ const PageSkeleton = ({ page }) => {
   if (page === "status") return <SkeletonStatus />;
   if (page === "wordcounter") return <SkeletonWordCounter />;
   if (page === "mdreader") return <SkeletonMdReader />;
-
   return <IntroSkeleton />;
 };
 
 function App() {
   const { darkMode, setDarkMode } = useTheme();
-
   const [activePage, setActivePage] = useState("intro");
   const [loadingPage, setLoadingPage] = useState("intro");
   const [isLoading, setIsLoading] = useState(true);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
   const loadingTimer = useRef(null);
 
   useEffect(() => {
@@ -100,7 +92,6 @@ function App() {
     };
 
     window.addEventListener("scroll", handleScroll);
-
     return () => {
       clearTimeout(loadingTimer.current);
       window.removeEventListener("scroll", handleScroll);
@@ -119,14 +110,11 @@ function App() {
       setIsMobileMenuOpen(false);
       return;
     }
-
     clearTimeout(loadingTimer.current);
-
     setLoadingPage(page);
     setIsLoading(true);
     setIsMobileMenuOpen(false);
     scrollToTop();
-
     loadingTimer.current = setTimeout(() => {
       setActivePage(page);
       setIsLoading(false);
@@ -147,7 +135,6 @@ function App() {
           setIsMobileMenuOpen={setIsMobileMenuOpen}
         />
       )}
-
       <main className={`main-content ${isLoading ? "" : "fade-in"}`}>
         {isLoading ? (
           <PageSkeleton page={loadingPage} />
@@ -156,7 +143,6 @@ function App() {
             {activePage === "intro" && (
               <Intro setActivePage={handleNavClick} isLoading={false} />
             )}
-
             {activePage === "password" && <PasswordTool />}
             {activePage === "status" && <StatusTool />}
             {activePage === "wordcounter" && <WordCounter />}
@@ -164,7 +150,6 @@ function App() {
           </>
         )}
       </main>
-
       {isLoading ? (
         <footer>
           <div className="skeleton skeleton-footer"></div>
@@ -172,7 +157,6 @@ function App() {
       ) : (
         <Footer />
       )}
-
       {showBackToTop && !isLoading && (
         <button
           className="back-to-top"
